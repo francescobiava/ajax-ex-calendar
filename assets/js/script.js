@@ -17,14 +17,19 @@ function getDays(selectedMonth) {
     $('#calendar .jan').append('<li data-day=' + date + '>' + day + '</li>');
   }
   // richiamo la funzione della chiamata ajax
-  getHolidays();
+  getHolidays(selectedMonth);
 }
 
 // funzione chiamata Ajax
-function getHolidays() {
+function getHolidays(selectedMonth) {
+  selectedMonth = selectedMonth - 1;
   $.ajax({
-    url: 'https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=0',
+    url: 'https://flynn.boolean.careers/exercises/api/holidays',
     method: 'GET',
+    data: {
+      year: 2018,
+      month: selectedMonth
+    },
     success: function (data) {
       // recupero dalla chiamata le festività
       var holidays = data.response;
