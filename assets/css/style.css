@@ -3,3 +3,18 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+#calendar {
+  margin: 25px;
+  text-align: center;
+}
+
+#calendar .month-name {
+  list-style-type: none;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.holiday {
+  color: red;
+}
