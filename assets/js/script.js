@@ -1,20 +1,44 @@
 $(document).ready(function () {
   
-  var month = 1; //setto per adesso fisso a gennaio
+  var month = 11; //setto di base il primo da visualizzare
   getDays(month);
+  prevMonth(month);
+  nextMonth(month);
   
 });
 
 // FUNCTIONS
+// funzione al click di precedente
+function prevMonth(selectedMonth) {
+  $('#select-month .prev').click(function() {
+    // scalo di uno il mese
+    selectedMonth = selectedMonth - 1;
+    getDays(selectedMonth);
+  });
+}
+
+// funzione al click di seguente
+function nextMonth(selectedMonth) {
+  $('#select-month .next').click(function() {
+    // aumento di uno il mese
+    selectedMonth = selectedMonth + 1;
+    getDays(selectedMonth);
+  })
+}
+
 // funzione per stampare i giorni del mese che gli passo
 function getDays(selectedMonth) {
+  // cancello il mese già presente
+  $('#calendar ul').html('');
+  // in base al numero del mese scrivo in pagina il giorno
+  $('#select-month .month-name').text(moment(selectedMonth, 'M').format('MMMM'));
   // estraggo il numero di giorni del mese
   var days = moment("2018-" + selectedMonth, "YYYY-M").daysInMonth();
   // ciclo per tutti i giorni, appendo in pagina ogni giorno e aggiungo l'attributo per identificarlo
   for (var i = 1; i <= days; i++) {
     var date = moment('2018-' + selectedMonth + '-' + i, 'YYYY-M-D').format('YYYY-MM-DD');
     var day = moment(date).format('DD dddd');
-    $('#calendar .jan').append('<li data-day=' + date + '>' + day + '</li>');
+    $('#calendar ul').append('<li data-day=' + date + '>' + day + '</li>');
   }
   // richiamo la funzione della chiamata ajax
   getHolidays(selectedMonth);
