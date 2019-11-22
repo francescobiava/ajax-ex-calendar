@@ -2,28 +2,33 @@ $(document).ready(function () {
   
   var month = 11; //setto di base il primo da visualizzare
   getDays(month);
-  prevMonth(month);
-  nextMonth(month);
-  
+  slideMonth(month);
+
 });
 
 // FUNCTIONS
 // funzione al click di precedente
-function prevMonth(selectedMonth) {
-  $('#select-month .prev').click(function() {
-    // scalo di uno il mese
-    selectedMonth = selectedMonth - 1;
-    getDays(selectedMonth);
+function slideMonth(selectedMonth) {
+  $('#select-month .prev').click(function() {    
+    // controllo se è a gennaio passo a dicembre, altrimenti scalo di 1
+    if (selectedMonth === 1) {      
+      selectedMonth = 12;
+      getDays(selectedMonth);
+    } else {      
+      selectedMonth = selectedMonth - 1;      
+      getDays(selectedMonth);
+    }
   });
-}
-
-// funzione al click di seguente
-function nextMonth(selectedMonth) {
-  $('#select-month .next').click(function() {
-    // aumento di uno il mese
-    selectedMonth = selectedMonth + 1;
-    getDays(selectedMonth);
-  })
+  $('#select-month .next').click(function() {            
+    // controllo se è a dicembre passo a gennaio, altrimenti aumento di 1
+    if (selectedMonth === 12) {
+      selectedMonth = 1;      
+      getDays(selectedMonth);
+    } else {
+      selectedMonth = selectedMonth + 1;      
+      getDays(selectedMonth);
+    }
+  });
 }
 
 // funzione per stampare i giorni del mese che gli passo
@@ -31,7 +36,7 @@ function getDays(selectedMonth) {
   // cancello il mese già presente
   $('#calendar ul').html('');
   // in base al numero del mese scrivo in pagina il giorno
-  $('#select-month .month-name').text(moment(selectedMonth, 'M').format('MMMM'));
+  $('#select-month .month-name').text(moment(selectedMonth + '-' + '2018', 'M-YYYY').format('MMMM YYYY'));
   // estraggo il numero di giorni del mese
   var days = moment("2018-" + selectedMonth, "YYYY-M").daysInMonth();
   // ciclo per tutti i giorni, appendo in pagina ogni giorno e aggiungo l'attributo per identificarlo
@@ -46,13 +51,13 @@ function getDays(selectedMonth) {
 
 // funzione chiamata Ajax
 function getHolidays(selectedMonth) {
-  selectedMonth = selectedMonth - 1;
+  var apiMonth = selectedMonth - 1;
   $.ajax({
     url: 'https://flynn.boolean.careers/exercises/api/holidays',
     method: 'GET',
     data: {
       year: 2018,
-      month: selectedMonth
+      month: apiMonth
     },
     success: function (data) {
       // recupero dalla chiamata le festività
@@ -66,5 +71,5 @@ function getHolidays(selectedMonth) {
         $('li[data-day=' + day + ']').addClass('holiday').append('<span> ' + holiday + '</span>');
       });
     }
-  });
+  });  
 }
