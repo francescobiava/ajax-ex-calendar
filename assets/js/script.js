@@ -39,6 +39,12 @@ function getDays(selectedMonth) {
   $('#select-month .month-name').text(moment(selectedMonth + '-' + '2018', 'M-YYYY').format('MMMM YYYY'));
   // estraggo il numero di giorni del mese
   var days = moment("2018-" + selectedMonth, "YYYY-M").daysInMonth();
+  // estraggo che giorno è il primo
+  var firstDay = moment('2018-' + selectedMonth + '-1', 'YYYY-M-D').day();
+  // inserisco le celle vuote in base a qual è il primo giorno
+  for (var i = 0; i< firstDay; i++) {
+    $('#calendar ul').append('<li></li>');
+  }
   // ciclo per tutti i giorni, appendo in pagina ogni giorno e aggiungo l'attributo per identificarlo
   for (var i = 1; i <= days; i++) {
     var date = moment('2018-' + selectedMonth + '-' + i, 'YYYY-M-D').format('YYYY-MM-DD');

@@ -20,6 +20,7 @@
 #select-month .next {
   background-color: red;
   padding: 10px;
+  border-radius: 5px;
 }
 
 #select-month .prev:hover,
@@ -28,10 +29,24 @@
 }
 
 #calendar {
-  margin: 25px;
+  margin: 50px;
   text-align: center;
 }
 
 .holiday {
   color: red;
+}
+
+#calendar ul {
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#calendar li {
+  list-style-type: none;
+  width: calc(100% / 7);
+  height: 120px;
+  border: 1px solid black;
+  padding: 5px;
 }
